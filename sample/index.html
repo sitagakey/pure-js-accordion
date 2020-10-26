@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" href="/sample/css/style.css">
+<script src="/sample/js/pure-js-accordion.js"></script>
+</head>
+<body>
+<main>
+    <h1>Example.</h1>
+    <h2>Basic.</h2>
+    <div class="box">
+        <button class="button" type="button">trigger</button>
+        <div class="content">
+            <p>target</p>
+        </div>
+    </div>
+    <h2>Nest.</h2>
+    <div class="box">
+        <button class="button" type="button">trigger</button>
+        <div class="content">
+            <p>target</p>
+            <div class="box">
+                <button class="button" type="button">trigger</button>
+                <div class="content">
+                    <p>target</p>
+                    <div class="box">
+                        <button class="button" type="button">trigger</button>
+                        <div class="content">
+                            <p>target</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2>Away from Target</h2>
+    <div class="box">
+        <button class="button" type="button" data-target=".away-target">trigger</button>
+    </div>
+    <div class="box">
+        <p class="away-target">target</p>
+    </div>
+    <h2>Opened.</h2>
+    <div class="box">
+        <button class="button" type="button" data-is-open>trigger</button>
+        <div class="content">
+            <p>target</p>
+        </div>
+    </div>
+</main>
+<script>
+const btn = document.querySelectorAll('button');
+let btnLen = btn.length;
+
+while (btnLen--) {
+    const trigger = btn[btnLen];
+    const target = trigger.dataset.hasOwnProperty('target') ? document.querySelector(trigger.dataset.target) : null;
+    const isOpen = trigger.dataset.hasOwnProperty('isOpen');
+    const duration = 0.4;
+    const options = {
+        trigger,
+        target,
+        isOpen,
+        duration,
+    };
+    const pjsa = new PJSAccordion(options);
+    
+}
+for(const trigger of btn) {
+}
+</script>
+
+</body>
+</html>

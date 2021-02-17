@@ -53,11 +53,9 @@
 </main>
 <script>
 const btn = document.querySelectorAll('button');
-let btnLen = btn.length;
 
-while (btnLen--) {
-    const trigger = btn[btnLen];
-    const target = trigger.dataset.hasOwnProperty('target') ? document.querySelector(trigger.dataset.target) : null;
+for (const trigger of btn) {
+    const target = document.querySelector(trigger.dataset.target);
     const isOpen = trigger.dataset.hasOwnProperty('isOpen');
     const duration = 0.4;
     const options = {

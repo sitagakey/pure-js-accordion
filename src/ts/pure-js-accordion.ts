@@ -1,22 +1,22 @@
-interface options {
-    trigger: HTMLElement
-    target: HTMLElement|null
-    isOpen: boolean
-    duration: number
+interface PJSAccordionOptions {
+    trigger: HTMLElement;
+    target: HTMLElement | null;
+    isOpen: boolean;
+    duration: number;
 }
 class PJSAccordion {
     public trigger: HTMLElement;
     public triggerState: boolean;
-    public target: Element|null;
+    public target: Element | null;
     public targetState: boolean;
     public duration: number;
     public activeClass: string = 'is-active';
-    public inactiveClass: string = 'is-inactive';
     public animationClass: string = 'is-animation';
-    public pjsaStyle: HTMLStyleElement|null;
+    public inactiveClass: string = 'is-inactive';
+    public pjsaStyle: HTMLStyleElement　|　null;
 
-    constructor(requestOptions: options) {
-        const options:options = Object.assign({
+    constructor(requestOptions: PJSAccordionOptions) {
+        const options: PJSAccordionOptions = Object.assign({
             trigger: null,
             target: null,
             isOpen: false,

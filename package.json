@@ -2,6 +2,14 @@
   "name": "pure-js-accordion",
   "version": "1.0.0",
   "description": "Simply Accordion Library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hikiroom/pure-js-accordion"
+  },
+  "main": "dist/pure-js-accordion.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "dev": "NODE_ENV=development webpack -w",

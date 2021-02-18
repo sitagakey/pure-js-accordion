@@ -1,8 +1,8 @@
 interface PJSAccordionOptions {
     trigger: HTMLElement;
-    target: HTMLElement | null;
-    isOpen: boolean;
-    duration: number;
+    target?: Element | null;
+    isOpen?: boolean;
+    duration?: number;
 }
 class PJSAccordion {
     public trigger: HTMLElement;
@@ -13,22 +13,21 @@ class PJSAccordion {
     public activeClass: string = 'is-active';
     public animationClass: string = 'is-animation';
     public inactiveClass: string = 'is-inactive';
-    public pjsaStyle: HTMLStyleElement　|　null;
+    public pjsaStyle: HTMLStyleElement　|　null = null;
 
-    constructor(requestOptions: PJSAccordionOptions) {
-        const options: PJSAccordionOptions = Object.assign({
-            trigger: null,
-            target: null,
-            isOpen: false,
-            duration: 0.2,
-        }, requestOptions);
+    constructor(options: PJSAccordionOptions) {
+        options.isOpen ??= false;
+        options.target ??= null;
+        options.duration ??= 0.2;
 
         this.trigger = options.trigger;
         this.triggerState = options.isOpen;
         this.trigger.classList.add('pjsa-trigger');
+
         this.target = options.target || options.trigger.nextElementSibling;
         this.target?.classList.add(`pjsa-target`);
         this.targetState = options.isOpen;
+
         this.duration = options.duration;
         this.pjsaStyle = document.querySelector('.pjsa-style');
 

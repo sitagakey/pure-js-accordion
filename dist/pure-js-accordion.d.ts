@@ -1,8 +1,8 @@
 interface PJSAccordionOptions {
     trigger: HTMLElement;
-    target: HTMLElement | null;
-    isOpen: boolean;
-    duration: number;
+    target?: Element | null;
+    isOpen?: boolean;
+    duration?: number;
 }
 declare class PJSAccordion {
     trigger: HTMLElement;
@@ -14,7 +14,7 @@ declare class PJSAccordion {
     animationClass: string;
     inactiveClass: string;
     pjsaStyle: HTMLStyleElement | null;
-    constructor(requestOptions: PJSAccordionOptions);
+    constructor(options: PJSAccordionOptions);
     /**
      * ライブラリ用のstyle要素をheadに追加する
      */

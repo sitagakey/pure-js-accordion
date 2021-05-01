@@ -1,13 +1,16 @@
+import { isTruthy } from './typeGuard';
+
 interface PJSAccordionOptions {
     trigger: HTMLElement;
-    target?: Element | null;
+    target?: HTMLElement | null;
     isOpen?: boolean;
     duration?: number;
 }
+
 class PJSAccordion {
     public trigger: HTMLElement;
     public triggerState: boolean;
-    public target: Element | null;
+    public target: HTMLElement | null;
     public targetState: boolean;
     public duration: number;
     public activeClass: string = 'is-active';
@@ -24,17 +27,20 @@ class PJSAccordion {
         this.triggerState = options.isOpen;
         this.trigger.classList.add('pjsa-trigger');
 
-        this.target = options.target || options.trigger.nextElementSibling;
-        this.target?.classList.add(`pjsa-target`);
+        this.target = options.target || <HTMLElement>options.trigger.nextElementSibling;
+        if (!isTruthy(this.target)) {
+            throw new Error(`don't exist target element.`);
+        }
+        this.target.classList.add(`pjsa-target`);
         this.targetState = options.isOpen;
 
         this.duration = options.duration;
-        this.pjsaStyle = document.querySelector('.pjsa-style');
+        this.pjsaStyle = document.querySelector<HTMLStyleElement>('.pjsa-style');
 
         if (!this.pjsaStyle) this.appendPJSAStyle();
         this.writePJSAStyle();
         this.applyStateClass(this.trigger, this.triggerState);
-        this.applyStateClass(this.target as HTMLElement, this.targetState);
+        this.applyStateClass(this.target, this.targetState);
         this.setEvent();
     }
 
@@ -62,8 +68,12 @@ class PJSAccordion {
      * ライブラリ用のstyle要素にスタイルを書き込む
      */
     writePJSAStyle() {
-        const pjsaStyle = this.pjsaStyle as HTMLStyleElement;
-        const pjsaLen = parseInt(pjsaStyle.dataset.pjsaLen as string, 10);
+        const pjsaStyle = this.pjsaStyle;
+        if (!isTruthy(pjsaStyle)) {
+            throw new Error(`don't exist pjsaStyle element.`);
+        }
+
+        const pjsaLen = parseInt(String(pjsaStyle.dataset.pjsaLen), 10);
         const cssText = `
         .pjsa-target.${this.animationClass}[data-index="${pjsaLen}"] {
             transition: height ${this.duration}s, visibility ${this.duration}s, margin ${this.duration}s, padding ${this.duration}s;
@@ -71,7 +81,10 @@ class PJSAccordion {
         const cssTextNode = document.createTextNode(cssText);
         pjsaStyle.appendChild(cssTextNode);
 
-        const target = this.target as HTMLElement;
+        const target = this.target;
+        if (!isTruthy(target)) {
+            throw new Error(`don't exist target element`);
+        }
         target.dataset.index = String(pjsaLen);
 
         pjsaStyle.dataset.pjsaLen = String(pjsaLen + 1);
@@ -94,14 +107,20 @@ class PJSAccordion {
     setEvent() {
         this.trigger.addEventListener('click', this.toggle.bind(this));
 
-        const target = this.target as HTMLElement;
+        const target = this.target;
+        if (!isTruthy(target)) {
+            throw new Error(`don't exist target element.`);
+        }
         target.addEventListener('transitionend', this.removeStyle.bind(this));
     }
     /**
      * アコーディオンを開く
      */
     open() {
-        const target = this.target as HTMLElement;
+        const target = this.target;
+        if (!isTruthy(target)) {
+            throw new Error(`don't exist target element.`);
+        }
         const targetScrollHeight = target.scrollHeight;
         target.style.height = '0';
         target.style.overflow = 'hidden';
@@ -118,7 +137,11 @@ class PJSAccordion {
      * アコーディオンを閉じる
      */
     close() {
-        const target = this.target as HTMLElement;
+        const target = this.target;
+        if (!isTruthy(target)) {
+            throw new Error(`don't exist target element`);
+        }
+
         const targetOffsetHeight = target.offsetHeight;
         target.style.height = `${targetOffsetHeight}px`;
         target.offsetHeight; // CSSOMの更新
@@ -148,7 +171,7 @@ class PJSAccordion {
         e.stopPropagation();
 
         if (e.propertyName === 'height') {
-            const target = e.target as HTMLElement;
+            const target = <HTMLElement>e.target;
             target.style.height = '';
             target.style.overflow = '';
             target.classList.remove(this.animationClass);

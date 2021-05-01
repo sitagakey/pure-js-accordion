@@ -1,13 +1,13 @@
 interface PJSAccordionOptions {
     trigger: HTMLElement;
-    target?: Element | null;
+    target?: HTMLElement | null;
     isOpen?: boolean;
     duration?: number;
 }
 declare class PJSAccordion {
     trigger: HTMLElement;
     triggerState: boolean;
-    target: Element | null;
+    target: HTMLElement | null;
     targetState: boolean;
     duration: number;
     activeClass: string;

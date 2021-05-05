@@ -11,7 +11,7 @@ describe('pure-js-accordion', () => {
         `;
 
         document.body.innerHTML = mockEl;
-    })
+    });
 
     test('init', () => {
         const trigger = document.querySelector<HTMLElement>('.js_pjsa');
